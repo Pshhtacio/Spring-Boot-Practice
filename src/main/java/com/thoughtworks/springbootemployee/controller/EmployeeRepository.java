@@ -32,19 +32,31 @@ public class EmployeeRepository {
 
     public List<Employee> findByGender(String gender) {
         return employees.stream()
-                .filter(employee -> employee.getGender().equals(gender))
+                .filter(employee -> employee.getGender().equalsIgnoreCase(gender))
                 .collect(Collectors.toList());
     }
 
     public Employee addEmployee(Employee employee) {
-       Long id = generateNextId();
-
-       //need to validate properties in Employee, e.g. age -1. We skip here
+        Long id = generateNextId();
+        if (employee.getName() == null || employee.getName().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or empty.");
+        }
+        if (employee.getAge() <= 0) {
+            throw new IllegalArgumentException("Age must be a positive integer.");
+        }
+        if (employee.getGender() == null || !employee.getGender().equalsIgnoreCase("Male")
+                && !employee.getGender().equalsIgnoreCase("Female")) {
+            throw new IllegalArgumentException("Gender must be 'Male' or 'Female'.");
+        }
+        if (employee.getSalary() <= 0) {
+            throw new IllegalArgumentException("Salary must be a positive number.");
+        }
         Employee newEmployee = new Employee(id,
                 employee.getName(),
                 employee.getAge(),
                 employee.getGender(),
                 employee.getSalary());
+
         employees.add(newEmployee);
         return newEmployee;
     }
@@ -58,7 +70,7 @@ public class EmployeeRepository {
 
     public List<Employee> listByPage(Long pageNumber, Long pageSize) {
         return employees.stream()
-                .skip((pageNumber-1) * pageSize)
+                .skip((pageNumber - 1) * pageSize)
                 .limit(pageSize)
                 .collect(Collectors.toList());
     }
