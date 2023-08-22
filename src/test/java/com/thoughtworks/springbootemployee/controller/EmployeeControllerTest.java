@@ -83,7 +83,7 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
         Employee updatedEmployee = new Employee(employeeId, "The Name", 35, "Male", 60000);
 
         when(employeeRepository.updateEmployee(updatedEmployee)).thenReturn(updatedEmployee);
-        ResponseEntity<Employee> result = employeeController.updateEmployee(employeeId, updatedEmployee);
+        ResponseEntity<Object> result = employeeController.updateEmployee(employeeId, updatedEmployee);
 
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals(updatedEmployee, result.getBody());

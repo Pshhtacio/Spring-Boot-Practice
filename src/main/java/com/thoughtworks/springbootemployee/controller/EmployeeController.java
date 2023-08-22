@@ -48,16 +48,24 @@ public class EmployeeController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
+    public ResponseEntity<Object> updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
         updatedEmployee.setId(id);
-        Employee updated = employeeRepository.updateEmployee(updatedEmployee);
 
-        if (updated != null) {
-            return ResponseEntity.ok(updated);
-        } else {
+        try {
+            Employee updated = employeeRepository.updateEmployee(updatedEmployee);
+
+            if (updated != null) {
+                return ResponseEntity.ok(updated);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (EmployeeNotFoundException ex) {
             return ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
+
 
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

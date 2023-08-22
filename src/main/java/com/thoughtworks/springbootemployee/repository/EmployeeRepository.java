@@ -67,19 +67,21 @@ public class EmployeeRepository {
         }
     }
 
-    public Employee updateEmployee(Employee employeeToBeUpdated) {
+    public Employee updateEmployee(Employee updatedEmployee) {
+        EmployeeValidator.validateEmployee(updatedEmployee);
+
         Employee employeeToUpdate = employees.stream()
-                .filter(employee -> employee.getId().equals(employeeToBeUpdated.getId()))
+                .filter(employee -> employee.getId().equals(updatedEmployee.getId()))
                 .findFirst()
                 .orElse(null);
 
         if (employeeToUpdate != null) {
-            employeeToUpdate.setName(employeeToBeUpdated.getName());
-            employeeToUpdate.setGender(employeeToBeUpdated.getGender());
-            employeeToUpdate.setAge(employeeToBeUpdated.getAge());
+            employeeToUpdate.setName(updatedEmployee.getName());
+            employeeToUpdate.setGender(updatedEmployee.getGender());
+            employeeToUpdate.setAge(updatedEmployee.getAge());
             return employeeToUpdate;
         } else {
-            throw new EmployeeNotFoundException("Employee not found with id: " + employeeToBeUpdated.getId());
+            throw new EmployeeNotFoundException("Employee not found with id: " + updatedEmployee.getId());
         }
     }
 
