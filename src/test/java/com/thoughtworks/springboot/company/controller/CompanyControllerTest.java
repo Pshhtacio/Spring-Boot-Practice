@@ -55,6 +55,22 @@ public class CompanyControllerTest {//HAPPY CASE ONLY
     }
 
     @Test
+    void given_existing_company_id_when_getEmployeesByCompanyId_then_return_employee_list() {
+        Long companyId = 1L;
+
+        Employee employee1 = new Employee(1L, "John", 14, "Male", 5000);
+        Employee employee2 = new Employee(2L, "Jane", 25, "Female",10000);
+        List<Employee> employees = Arrays.asList(employee1, employee2);
+
+        when(companyRepository.getEmployeesByCompanyId(companyId)).thenReturn(employees);
+
+        ResponseEntity<List<Employee>> response = companyController.getEmployeesByCompanyId(companyId);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(employees, response.getBody());
+    }
+
+    @Test
     void given_pageNumber_and_pageSize_when_findCompaniesByPage_then_return_company_list() {
         Long pageNumber = 1L;
         Long pageSize = 2L;

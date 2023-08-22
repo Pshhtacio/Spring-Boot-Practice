@@ -1,5 +1,6 @@
 package com.thoughtworks.springboot.company.controller;
 
+import com.thoughtworks.springboot.company.exception.CompanyNotFoundException;
 import com.thoughtworks.springboot.company.model.Company;
 import com.thoughtworks.springboot.company.repository.CompanyRepository;
 import com.thoughtworks.springboot.employee.model.Employee;
@@ -36,4 +37,13 @@ public class CompanyController {
         return companyRepository.listByPage(pageNumber, pageSize);
     }
 
+    @GetMapping("/{companyId}/employees")
+    public ResponseEntity<List<Employee>> getEmployeesByCompanyId(@PathVariable Long companyId) {
+        try {
+            List<Employee> employees = companyRepository.getEmployeesByCompanyId(companyId);
+            return ResponseEntity.ok(employees);
+        } catch (CompanyNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

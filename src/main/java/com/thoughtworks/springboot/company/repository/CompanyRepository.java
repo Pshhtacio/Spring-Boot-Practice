@@ -15,7 +15,8 @@ import java.util.stream.Collectors;
 public class CompanyRepository {
 
     private static final List<Company> companies = new ArrayList<>();
-    private static final Map<Long, Company> employeeCompanyMap = new HashMap<>();
+    private static final List<Employee> employees = new ArrayList<>();
+    private static final Map<Long, Long> employeeCompanyMap = new HashMap<>();
 
     static {
         companies.add(new Company(1L, "OOCL"));
@@ -23,11 +24,16 @@ public class CompanyRepository {
         companies.add(new Company(3L, "COSCO"));
         companies.add(new Company(4L, "DoubleDragon"));
         companies.add(new Company(5L, "Scape"));
-        employeeCompanyMap.put(1L, companies.get(0));
-        employeeCompanyMap.put(2L, companies.get(1));
-        employeeCompanyMap.put(3L, companies.get(3));
-        employeeCompanyMap.put(4L, companies.get(1));
-        employeeCompanyMap.put(5L, companies.get(0));
+        employees.add(new Employee(1L, "Ilnear", 42, "Male", 10000));
+        employees.add(new Employee(2L, "Ilfar", 42, "Female", 20000));
+        employees.add(new Employee(3L, "Ilclose", 42, "Male", 3000));
+        employees.add(new Employee(4L, "Ilalmostthere", 42, "Female", 5000));
+        employees.add(new Employee(5L, "Ilfaraway", 42, "Male", 14500));
+        employeeCompanyMap.put(1L, 1L);
+        employeeCompanyMap.put(2L, 1L);
+        employeeCompanyMap.put(3L, 1L);
+        employeeCompanyMap.put(4L, 2L);
+        employeeCompanyMap.put(5L, 3L);
     }
 
 
@@ -48,4 +54,11 @@ public class CompanyRepository {
                 .limit(pageSize)
                 .collect(Collectors.toList());
     }
+
+    public List<Employee> getEmployeesByCompanyId(Long companyId) {
+        return employees.stream()
+                .filter(employee -> employeeCompanyMap.containsValue(companyId) && employeeCompanyMap.get(employee.getId()).equals(companyId))
+                .collect(Collectors.toList());
+    }
+
 }
