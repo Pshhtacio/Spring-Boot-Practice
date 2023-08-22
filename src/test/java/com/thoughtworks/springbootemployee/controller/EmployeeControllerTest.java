@@ -62,11 +62,14 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void addEmployee() {
-    }
+    public void given_updatedEmployee_when_updateEmployee_then_employee_is_updated_and_returned() {
+        Long employeeId = 1L;
+        Employee updatedEmployee = new Employee(employeeId, "The Name", 35, "Male", 60000);
 
-    @Test
-    void updateEmployee() {
+        when(employeeRepository.updateEmployee(updatedEmployee)).thenReturn(updatedEmployee);
+        Employee result = employeeController.updateEmployee(employeeId, updatedEmployee);
+
+        assertEquals(updatedEmployee, result);
     }
 
     @Test
