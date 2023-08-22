@@ -4,8 +4,6 @@ import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.exception.EmployeeValidationException;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.utility.EmployeeValidator;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -68,13 +66,6 @@ public class EmployeeRepository {
         }
     }
 
-    public List<Employee> listByPage(Long pageNumber, Long pageSize) {
-        return employees.stream()
-                .skip((pageNumber - 1) * pageSize)
-                .limit(pageSize)
-                .collect(Collectors.toList());
-    }
-
     public Employee updateEmployee(Employee employeeToBeUpdated) {
         Employee employeeToUpdate = employees.stream()
                 .filter(employee -> employee.getId().equals(employeeToBeUpdated.getId()))
@@ -89,5 +80,16 @@ public class EmployeeRepository {
         } else {
             throw new EmployeeNotFoundException("Employee not found with id: " + employeeToBeUpdated.getId());
         }
+    }
+
+    public void deleteEmployee(Long id) {
+        employees.removeIf(employee -> employee.getId().equals(id));
+    }
+
+    public List<Employee> listByPage(Long pageNumber, Long pageSize) {
+        return employees.stream()
+                .skip((pageNumber - 1) * pageSize)
+                .limit(pageSize)
+                .collect(Collectors.toList());
     }
 }

@@ -40,7 +40,6 @@ public class EmployeeController {
     public ResponseEntity<Object> addEmployee(@RequestBody Employee employee) {
         try {
             Employee addedEmployee = employeeRepository.addEmployee(employee);
-
             return ResponseEntity.status(HttpStatus.CREATED).body(addedEmployee);
         } catch (EmployeeValidationException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
@@ -50,10 +49,15 @@ public class EmployeeController {
     @PutMapping(path = "/{id}")
     public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
         updatedEmployee.setId(id);
-
         return employeeRepository.updateEmployee(updatedEmployee);
     }
 
+    @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
+        employeeRepository.deleteEmployee(id);
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping(params = {"pageNumber", "pageSize"})
     public List<Employee> findByPage(@RequestParam Long pageNumber, Long pageSize) {
