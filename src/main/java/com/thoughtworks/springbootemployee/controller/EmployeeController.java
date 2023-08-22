@@ -1,5 +1,7 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +11,6 @@ import java.util.List;
 @RequestMapping(path = "employees")
 @RestController
 public class EmployeeController {
-
 
     private final EmployeeRepository employeeRepository;
 
@@ -32,9 +33,10 @@ public class EmployeeController {
     public List<Employee> findByGender(@RequestParam String gender) {
         return employeeRepository.findByGender(gender);
     }
+
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Employee addEmployee(@RequestBody Employee employee){
+    public Employee addEmployee(@RequestBody Employee employee) {
         return employeeRepository.addEmployee(employee);
     }
 
