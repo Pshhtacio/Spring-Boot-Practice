@@ -51,6 +51,19 @@ class EmployeeControllerTest {
     }
 
     @Test
+    public void given_gender_exists_in_repository_when_findByGender_then_list_o_employees_with_matching_gender_is_returned() {
+        String gender = "Male";
+        List<Employee> employeesWithGender = new ArrayList<>();
+        employeesWithGender.add(new Employee(1L, "John", 30, "Male", 50000));
+        employeesWithGender.add(new Employee(2L, "Mike", 28, "Male", 55000));
+
+        when(employeeRepository.findByGender(gender)).thenReturn(employeesWithGender);
+        List<Employee> result = employeeController.findByGender(gender);
+
+        assertEquals(employeesWithGender, result);
+    }
+
+    @Test
     public void given_new_employee_when_addEmployee_then_employee_is_saved_and_returned() {
         Employee newEmployee = new Employee(null, "Jane", 28, "Female", 55000);
         Employee savedEmployee = new Employee(1L, "Jane", 28, "Female", 55000);
