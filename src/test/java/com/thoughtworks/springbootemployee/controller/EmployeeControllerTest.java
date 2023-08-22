@@ -28,22 +28,28 @@ class EmployeeControllerTest {
     }
 
     @Test
-    public void given_employees_when_listAll__then_list_of_employees_is_Returned() {
-        // Given
+    public void given_employees_exists_when_listAll_then_list_of_employees_is_returned() {
         List<Employee> employees = new ArrayList<>();
         employees.add(new Employee(1L, "John", 30, "Male", 50000));
         employees.add(new Employee(2L, "Alice", 25, "Female", 60000));
+
         when(employeeRepository.listAll()).thenReturn(employees);
 
-        // When
         List<Employee> result = employeeController.listAll();
 
-        // Then
         assertEquals(employees, result);
     }
 
     @Test
-    void findById() {
+    public void given_employee_exists_when_findEmployeeById_then_employee_is_returned() {
+        Long employeeId = 1L;
+        Employee employee = new Employee(employeeId, "John", 30, "Male", 50000);
+
+        when(employeeRepository.findById(employeeId)).thenReturn(employee);
+
+        Employee result = employeeController.findById(employeeId);
+
+        assertEquals(employee, result);
     }
 
     @Test
