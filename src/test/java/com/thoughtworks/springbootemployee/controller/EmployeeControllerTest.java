@@ -34,7 +34,6 @@ class EmployeeControllerTest {
         employees.add(new Employee(2L, "Alice", 25, "Female", 60000));
 
         when(employeeRepository.listAll()).thenReturn(employees);
-
         List<Employee> result = employeeController.listAll();
 
         assertEquals(employees, result);
@@ -46,14 +45,20 @@ class EmployeeControllerTest {
         Employee employee = new Employee(employeeId, "John", 30, "Male", 50000);
 
         when(employeeRepository.findById(employeeId)).thenReturn(employee);
-
         Employee result = employeeController.findById(employeeId);
 
         assertEquals(employee, result);
     }
 
     @Test
-    void findByGender() {
+    public void given_new_employee_when_addEmployee_then_employee_is_saved_and_returned() {
+        Employee newEmployee = new Employee(null, "Jane", 28, "Female", 55000);
+        Employee savedEmployee = new Employee(1L, "Jane", 28, "Female", 55000);
+
+        when(employeeRepository.addEmployee(newEmployee)).thenReturn(savedEmployee);
+        Employee result = employeeController.addEmployee(newEmployee);
+
+        assertEquals(savedEmployee, result);
     }
 
     @Test
