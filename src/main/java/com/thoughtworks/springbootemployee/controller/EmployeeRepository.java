@@ -55,4 +55,11 @@ public class EmployeeRepository {
                 .max()
                 .orElse(STARTING_ID_MINUS_ONE) + 1;
     }
+
+    public List<Employee> listByPage(Long pageNumber, Long pageSize) {
+        return employees.stream()
+                .skip((pageNumber-1) * pageSize)
+                .limit(pageSize)
+                .collect(Collectors.toList());
+    }
 }
