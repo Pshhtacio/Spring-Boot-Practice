@@ -38,6 +38,14 @@ public class EmployeeController {
         return employeeRepository.addEmployee(employee);
     }
 
+    @PutMapping(path = "/{id}")
+    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
+        updatedEmployee.setId(id);
+
+        return employeeRepository.updateEmployee(updatedEmployee);
+    }
+
+
     @GetMapping(params = {"pageNumber", "pageSize"})
     public List<Employee> findByPage(@RequestParam Long pageNumber, Long pageSize) {
         return employeeRepository.listByPage(pageNumber, pageSize);

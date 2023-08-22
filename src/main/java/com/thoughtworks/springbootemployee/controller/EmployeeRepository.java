@@ -62,4 +62,20 @@ public class EmployeeRepository {
                 .limit(pageSize)
                 .collect(Collectors.toList());
     }
+
+    public Employee updateEmployee(Employee employeeToBeUpdated) {
+        Employee employeeToUpdate = employees.stream()
+                .filter(employee -> employee.getId().equals(employeeToBeUpdated.getId()))
+                .findFirst()
+                .orElse(null);
+
+        if (employeeToUpdate != null) {
+            employeeToUpdate.setName(employeeToBeUpdated.getName());
+            employeeToUpdate.setGender(employeeToBeUpdated.getGender());
+            employeeToUpdate.setAge(employeeToBeUpdated.getAge());
+            return employeeToUpdate;
+        } else {
+            throw new EmployeeNotFoundException("Employee not found with id: " + employeeToBeUpdated.getId());
+        }
+    }
 }
