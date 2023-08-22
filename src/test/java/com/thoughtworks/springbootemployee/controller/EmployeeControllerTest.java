@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-class EmployeeControllerTest {
+class EmployeeControllerTest { //HAPPY CASES ONLY
 
     @Mock
     private EmployeeRepository employeeRepository;
@@ -69,9 +70,10 @@ class EmployeeControllerTest {
         Employee savedEmployee = new Employee(1L, "Jane", 28, "Female", 55000);
 
         when(employeeRepository.addEmployee(newEmployee)).thenReturn(savedEmployee);
-        Employee result = employeeController.addEmployee(newEmployee);
+        ResponseEntity<Object> result = employeeController.addEmployee(newEmployee);
 
-        assertEquals(savedEmployee, result);
+        assertEquals(201, result.getStatusCodeValue());
+        assertEquals(savedEmployee, result.getBody());
     }
 
     @Test
