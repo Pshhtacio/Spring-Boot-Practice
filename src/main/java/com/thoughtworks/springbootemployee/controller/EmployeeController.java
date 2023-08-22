@@ -23,17 +23,17 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> listAll() {
+    public List<Employee> listAllEmployees() {
         return employeeRepository.listAll();
     }
 
     @GetMapping(path = "/{id}")
-    public Employee findById(@PathVariable Long id) {
+    public Employee findEmployeeById(@PathVariable Long id) {
         return employeeRepository.findById(id);
     }
 
     @GetMapping(params = {"gender"})
-    public List<Employee> findByGender(@RequestParam String gender) {
+    public List<Employee> findEmployeeByGender(@RequestParam String gender) {
         return employeeRepository.findByGender(gender);
     }
 
@@ -79,7 +79,7 @@ public class EmployeeController {
     }
 
     @GetMapping(params = {"pageNumber", "pageSize"})
-    public List<Employee> findByPage(@RequestParam Long pageNumber, Long pageSize) {
+    public List<Employee> findEmployeesByPage(@RequestParam Long pageNumber, Long pageSize) {
         return employeeRepository.listByPage(pageNumber, pageSize);
     }
 }

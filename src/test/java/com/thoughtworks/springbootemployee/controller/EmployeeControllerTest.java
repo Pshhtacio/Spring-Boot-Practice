@@ -36,7 +36,7 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
         employees.add(new Employee(2L, "Alice", 25, "Female", 60000));
 
         when(employeeRepository.listAll()).thenReturn(employees);
-        List<Employee> result = employeeController.listAll();
+        List<Employee> result = employeeController.listAllEmployees();
 
         assertEquals(employees, result);
     }
@@ -47,7 +47,7 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
         Employee employee = new Employee(employeeId, "John", 30, "Male", 50000);
 
         when(employeeRepository.findById(employeeId)).thenReturn(employee);
-        Employee result = employeeController.findById(employeeId);
+        Employee result = employeeController.findEmployeeById(employeeId);
 
         assertEquals(employee, result);
     }
@@ -60,7 +60,7 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
         employeesWithGender.add(new Employee(2L, "Mike", 28, "Male", 55000));
 
         when(employeeRepository.findByGender(gender)).thenReturn(employeesWithGender);
-        List<Employee> result = employeeController.findByGender(gender);
+        List<Employee> result = employeeController.findEmployeeByGender(gender);
 
         assertEquals(employeesWithGender, result);
     }
@@ -109,7 +109,7 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
         employees.add(new Employee(2L, "Alice", 25, "Female", 60000));
 
         when(employeeRepository.listByPage(pageNumber, pageSize)).thenReturn(employees);
-        List<Employee> result = employeeController.findByPage(pageNumber, pageSize);
+        List<Employee> result = employeeController.findEmployeesByPage(pageNumber, pageSize);
 
         assertEquals(employees, result);
     }
