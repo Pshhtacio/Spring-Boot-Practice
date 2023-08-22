@@ -38,19 +38,10 @@ public class EmployeeRepository {
 
     public Employee addEmployee(Employee employee) {
         Long id = generateNextId();
-        if (employee.getName() == null || employee.getName().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty.");
-        }
-        if (employee.getAge() <= 0) {
-            throw new IllegalArgumentException("Age must be a positive integer.");
-        }
-        if (employee.getGender() == null || !employee.getGender().equalsIgnoreCase("Male")
-                && !employee.getGender().equalsIgnoreCase("Female")) {
-            throw new IllegalArgumentException("Gender must be 'Male' or 'Female'.");
-        }
-        if (employee.getSalary() <= 0) {
-            throw new IllegalArgumentException("Salary must be a positive number.");
-        }
+        validateName(employee);
+        validateAge(employee);
+        validateGender(employee);
+        validateSalary(employee);
         Employee newEmployee = new Employee(id,
                 employee.getName(),
                 employee.getAge(),
@@ -59,6 +50,31 @@ public class EmployeeRepository {
 
         employees.add(newEmployee);
         return newEmployee;
+    }
+
+    private static void validateSalary(Employee employee) {
+        if (employee.getSalary() <= 0) {
+            throw new IllegalArgumentException("Salary must be a positive number.");
+        }
+    }
+
+    private static void validateGender(Employee employee) {
+        if (employee.getGender() == null || !employee.getGender().equalsIgnoreCase("Male")
+                && !employee.getGender().equalsIgnoreCase("Female")) {
+            throw new IllegalArgumentException("Gender must be 'Male' or 'Female'.");
+        }
+    }
+
+    private static void validateAge(Employee employee) {
+        if (employee.getAge() <= 0) {
+            throw new IllegalArgumentException("Age must be a positive integer.");
+        }
+    }
+
+    private static void validateName(Employee employee) {
+        if (employee.getName() == null || employee.getName().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or empty.");
+        }
     }
 
     private Long generateNextId() {
