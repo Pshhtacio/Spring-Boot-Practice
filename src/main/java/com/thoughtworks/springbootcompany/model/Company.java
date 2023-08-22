@@ -1,4 +1,6 @@
-package com.thoughtworks.springbootemployee.model;
+package com.thoughtworks.springbootcompany.model;
+
+import com.thoughtworks.springbootemployee.model.Employee;
 
 import java.util.ArrayList;
 import java.util.List;
