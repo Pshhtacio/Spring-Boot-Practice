@@ -2,12 +2,10 @@ package com.thoughtworks.springboot.company.controller;
 
 import com.thoughtworks.springboot.company.model.Company;
 import com.thoughtworks.springboot.company.repository.CompanyRepository;
+import com.thoughtworks.springboot.employee.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,4 +30,10 @@ public class CompanyController {
     public Company findCompanyById(@PathVariable Long id) {
         return companyRepository.findById(id);
     }
+
+    @GetMapping(params = {"pageNumber", "pageSize"})
+    public List<Company> findCompaniesByPage(@RequestParam Long pageNumber, Long pageSize) {
+        return companyRepository.listByPage(pageNumber, pageSize);
+    }
+
 }
