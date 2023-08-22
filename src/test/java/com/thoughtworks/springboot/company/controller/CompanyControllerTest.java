@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 public class CompanyControllerTest {//HAPPY CASE ONLY
@@ -82,5 +85,39 @@ public class CompanyControllerTest {//HAPPY CASE ONLY
         List<Company> response = companyController.findCompaniesByPage(pageNumber, pageSize);
 
         assertEquals(companies, response);
+    }
+
+    @Test
+    void given_valid_company_when_addCompany_then_return_created_status_and_company() {
+        Company validCompany = new Company(null, "New Company");
+
+        when(companyRepository.addCompany(validCompany)).thenReturn(validCompany);
+
+        ResponseEntity<Object> response = companyController.addCompany(validCompany);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(validCompany, response.getBody());
+    }
+
+    @Test
+    void given_valid_company_when_updateCompanyById_then_return_updated_company() {
+        Long companyId = 1L;
+        Company updatedCompany = new Company(companyId, "Updated Company");
+
+        when(companyRepository.updateCompanyById(companyId, updatedCompany)).thenReturn(updatedCompany);
+        ResponseEntity<Object> response = companyController.updateCompanyById(companyId, updatedCompany);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(updatedCompany, response.getBody());
+    }
+
+    @Test
+    void given_existing_company_id_when_deleteCompanyById_then_return_no_content() {
+        Long companyId = 1L;
+
+        doNothing().when(companyRepository).deleteCompanyById(companyId);
+        ResponseEntity<Void> response = companyController.deleteCompanyById(companyId);
+
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 }
