@@ -1,6 +1,7 @@
 package com.thoughtworks.springboot.company.repository;
 
 import com.thoughtworks.springboot.company.exception.CompanyNotFoundException;
+import com.thoughtworks.springboot.company.exception.CompanyValidationException;
 import com.thoughtworks.springboot.company.model.Company;
 import com.thoughtworks.springboot.employee.model.Employee;
 import org.springframework.stereotype.Repository;
@@ -61,4 +62,53 @@ public class CompanyRepository {
                 .collect(Collectors.toList());
     }
 
+    public Company addCompany(Company company) {
+        Long id = generateNextId();
+        validateCompanyName(company.getName());
+
+        Company newCompany = new Company(id, company.getName());
+        companies.add(newCompany);
+        return newCompany;
+    }
+
+    private void validateCompanyName(String name) {
+        if (name == null || name.isEmpty()) {
+            throw new CompanyValidationException("Company name cannot be null or empty.");
+        }
+    }
+
+    private Long generateNextId() {
+        long STARTING_ID_MINUS_ONE = 0;
+        return companies.stream()
+                .mapToLong(Company::getId)
+                .max()
+                .orElse(STARTING_ID_MINUS_ONE) + 1;
+    }
+
+    public Company updateCompanyById(Long id, Company updatedCompany) {
+        Company companyToUpdate = companies.stream()
+                .filter(company -> company.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
+        if (companyToUpdate != null) {
+            companyToUpdate.setName(updatedCompany.getName());
+            return companyToUpdate;
+        }
+
+        return null;
+    }
+
+    public void deleteCompanyById(Long id) {
+        Company companyToDelete = companies.stream()
+                .filter(company -> company.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
+        if (companyToDelete != null) {
+            companies.remove(companyToDelete);
+        } else {
+            throw new CompanyNotFoundException("Company not found with id: " + id);
+        }
+    }
 }

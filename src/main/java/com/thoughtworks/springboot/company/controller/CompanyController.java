@@ -1,10 +1,13 @@
 package com.thoughtworks.springboot.company.controller;
 
 import com.thoughtworks.springboot.company.exception.CompanyNotFoundException;
+import com.thoughtworks.springboot.company.exception.CompanyValidationException;
 import com.thoughtworks.springboot.company.model.Company;
 import com.thoughtworks.springboot.company.repository.CompanyRepository;
+import com.thoughtworks.springboot.employee.exception.EmployeeValidationException;
 import com.thoughtworks.springboot.employee.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +45,42 @@ public class CompanyController {
         try {
             List<Employee> employees = companyRepository.getEmployeesByCompanyId(companyId);
             return ResponseEntity.ok(employees);
+        } catch (CompanyNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping()
+    public ResponseEntity<Object> addCompany(@RequestBody Company company) {
+        try {
+            Company addedCompany = companyRepository.addCompany(company);
+            return ResponseEntity.status(HttpStatus.CREATED).body(addedCompany);
+        } catch (EmployeeValidationException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateCompanyById(@PathVariable Long id, @RequestBody Company updatedCompany) {
+        try {
+            Company updated = companyRepository.updateCompanyById(id, updatedCompany);
+            if (updated != null) {
+                return ResponseEntity.ok(updated);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (CompanyValidationException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        } catch (CompanyNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCompanyById(@PathVariable Long id) {
+        try {
+            companyRepository.deleteCompanyById(id);
+            return ResponseEntity.noContent().build();
         } catch (CompanyNotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
