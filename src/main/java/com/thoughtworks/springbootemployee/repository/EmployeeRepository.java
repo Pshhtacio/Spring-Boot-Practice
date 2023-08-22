@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -83,7 +84,15 @@ public class EmployeeRepository {
     }
 
     public void deleteEmployee(Long id) {
-        employees.removeIf(employee -> employee.getId().equals(id));
+        Optional<Employee> employeeToDelete = employees.stream()
+                .filter(employee -> employee.getId().equals(id))
+                .findFirst();
+
+        if (employeeToDelete.isPresent()) {
+            employees.remove(employeeToDelete.get());
+        } else {
+            throw new EmployeeNotFoundException("Employee not found with ID: " + id);
+        }
     }
 
     public List<Employee> listByPage(Long pageNumber, Long pageSize) {

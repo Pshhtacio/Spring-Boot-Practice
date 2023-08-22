@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.exception.EmployeeValidationException;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
@@ -47,16 +48,26 @@ public class EmployeeController {
     }
 
     @PutMapping(path = "/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
         updatedEmployee.setId(id);
-        return employeeRepository.updateEmployee(updatedEmployee);
+        Employee updated = employeeRepository.updateEmployee(updatedEmployee);
+
+        if (updated != null) {
+            return ResponseEntity.ok(updated);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
-        employeeRepository.deleteEmployee(id);
-        return ResponseEntity.noContent().build();
+        try {
+            employeeRepository.deleteEmployee(id);
+            return ResponseEntity.noContent().build();
+        } catch (EmployeeNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping(params = {"pageNumber", "pageSize"})
