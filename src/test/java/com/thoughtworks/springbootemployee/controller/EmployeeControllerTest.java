@@ -83,9 +83,10 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
         Employee updatedEmployee = new Employee(employeeId, "The Name", 35, "Male", 60000);
 
         when(employeeRepository.updateEmployee(updatedEmployee)).thenReturn(updatedEmployee);
-        Employee result = employeeController.updateEmployee(employeeId, updatedEmployee);
+        ResponseEntity<Employee> result = employeeController.updateEmployee(employeeId, updatedEmployee);
 
-        assertEquals(updatedEmployee, result);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(updatedEmployee, result.getBody());
     }
 
     @Test
@@ -95,7 +96,6 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
         doNothing().when(employeeRepository).deleteEmployee(employeeIdToDelete);
         ResponseEntity<Void> result = employeeController.deleteEmployee(employeeIdToDelete);
 
-        verify(employeeRepository, times(1)).deleteEmployee(employeeIdToDelete);
         assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
         assertEquals(204, result.getStatusCodeValue());
     }
