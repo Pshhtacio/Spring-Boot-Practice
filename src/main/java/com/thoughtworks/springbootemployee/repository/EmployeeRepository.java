@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.repository;
 
 import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.utility.EmployeeValidator;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -11,14 +12,21 @@ import java.util.stream.Collectors;
 @Repository
 public class EmployeeRepository {
     private static final List<Employee> employees = new ArrayList<>();
-    private static Long STARTING_ID_MINUS_ONE = 0L;
+    private static final Long STARTING_ID_MINUS_ONE = 0L;
 
     static {
-        employees.add(new Employee(1l, "Ilnear", 42, "Male", 10000));
-        employees.add(new Employee(2l, "Ilfar", 42, "Female", 20000));
-        employees.add(new Employee(3l, "Ilclose", 42, "Male", 3000));
-        employees.add(new Employee(4l, "Ilalmostthere", 42, "Female", 5000));
-        employees.add(new Employee(5l, "Ilfaraway", 42, "Male", 14500));
+        employees.add(new Employee(1L, "Ilnear", 42, "Male", 10000));
+        employees.add(new Employee(2L, "Ilfar", 42, "Female", 20000));
+        employees.add(new Employee(3L, "Ilclose", 42, "Male", 3000));
+        employees.add(new Employee(4L, "Ilalmostthere", 42, "Female", 5000));
+        employees.add(new Employee(5L, "Ilfaraway", 42, "Male", 14500));
+    }
+
+    private Long generateNextId() {
+        return employees.stream()
+                .mapToLong(Employee::getId)
+                .max()
+                .orElse(STARTING_ID_MINUS_ONE) + 1;
     }
 
     public List<Employee> listAll() {
@@ -40,10 +48,8 @@ public class EmployeeRepository {
 
     public Employee addEmployee(Employee employee) {
         Long id = generateNextId();
-        validateName(employee);
-        validateAge(employee);
-        validateGender(employee);
-        validateSalary(employee);
+        EmployeeValidator.validateEmployee(employee);
+
         Employee newEmployee = new Employee(id,
                 employee.getName(),
                 employee.getAge(),
@@ -52,38 +58,6 @@ public class EmployeeRepository {
 
         employees.add(newEmployee);
         return newEmployee;
-    }
-
-    private static void validateSalary(Employee employee) {
-        if (employee.getSalary() <= 0) {
-            throw new IllegalArgumentException("Salary must be a positive number.");
-        }
-    }
-
-    private static void validateGender(Employee employee) {
-        if (employee.getGender() == null || !employee.getGender().equalsIgnoreCase("Male")
-                && !employee.getGender().equalsIgnoreCase("Female")) {
-            throw new IllegalArgumentException("Gender must be 'Male' or 'Female'.");
-        }
-    }
-
-    private static void validateAge(Employee employee) {
-        if (employee.getAge() <= 0) {
-            throw new IllegalArgumentException("Age must be a positive integer.");
-        }
-    }
-
-    private static void validateName(Employee employee) {
-        if (employee.getName() == null || employee.getName().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty.");
-        }
-    }
-
-    private Long generateNextId() {
-        return employees.stream()
-                .mapToLong(Employee::getId)
-                .max()
-                .orElse(STARTING_ID_MINUS_ONE) + 1;
     }
 
     public List<Employee> listByPage(Long pageNumber, Long pageSize) {
