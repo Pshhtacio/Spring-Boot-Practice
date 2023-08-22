@@ -66,7 +66,6 @@ public class EmployeeController {
         }
     }
 
-
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteEmployeeById(@PathVariable Long id) {
