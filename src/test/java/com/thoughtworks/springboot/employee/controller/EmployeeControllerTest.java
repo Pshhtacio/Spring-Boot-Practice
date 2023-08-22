@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
 class EmployeeControllerTest { //HAPPY CASES ONLY
 
@@ -30,7 +31,7 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
     }
 
     @Test
-    public void given_employees_exists_when_listAllEmployees_then_list_of_employees_is_returned() {
+    void given_employees_exists_when_listAllEmployees_then_list_of_employees_is_returned() {
         List<Employee> employees = new ArrayList<>();
         employees.add(new Employee(1L, "John", 30, "Male", 50000));
         employees.add(new Employee(2L, "Alice", 25, "Female", 60000));
@@ -42,7 +43,7 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
     }
 
     @Test
-    public void given_employee_exists_when_findEmployeeById_then_employee_is_returned() {
+    void given_employee_exists_when_findEmployeeById_then_employee_is_returned() {
         Long employeeId = 1L;
         Employee employee = new Employee(employeeId, "John", 30, "Male", 50000);
 
@@ -53,7 +54,7 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
     }
 
     @Test
-    public void given_gender_exists_in_repository_when_findEmployeeByGender_then_list_of_employees_with_matching_gender_is_returned() {
+    void given_gender_exists_in_repository_when_findEmployeeByGender_then_list_of_employees_with_matching_gender_is_returned() {
         String gender = "Male";
         List<Employee> employeesWithGender = new ArrayList<>();
         employeesWithGender.add(new Employee(1L, "John", 30, "Male", 50000));
@@ -66,7 +67,7 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
     }
 
     @Test
-    public void given_new_employee_when_addEmployee_then_employee_is_saved_and_returned() {
+    void given_new_employee_when_addEmployee_then_employee_is_saved_and_returned() {
         Employee newEmployee = new Employee(null, "Jane", 28, "Female", 55000);
         Employee savedEmployee = new Employee(1L, "Jane", 28, "Female", 55000);
 
@@ -78,7 +79,7 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
     }
 
     @Test
-    public void given_updatedEmployee_when_updateEmployee_then_employee_is_updated_and_returned() {
+    void given_updatedEmployee_when_updateEmployee_then_employee_is_updated_and_returned() {
         Long employeeId = 1L;
         Employee updatedEmployee = new Employee(employeeId, "The Name", 35, "Male", 60000);
 
@@ -90,7 +91,7 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
     }
 
     @Test
-    public void given_existing_employee_id_when_deleteEmployee_then_employee_is_deleted() {
+    void given_existing_employee_id_when_deleteEmployee_then_employee_is_deleted() {
         Long employeeIdToDelete = 1L;
 
         doNothing().when(employeeRepository).deleteEmployee(employeeIdToDelete);
@@ -101,7 +102,7 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
     }
 
     @Test
-    public void given_pageNumber_and_pageSize_when_findByPage_then_list_of_employees_for_page_is_returned() {
+    void given_pageNumber_and_pageSize_when_findByPage_then_list_of_employees_for_page_is_returned() {
         Long pageNumber = 1L;
         Long pageSize = 2L;
         List<Employee> employees = new ArrayList<>();
