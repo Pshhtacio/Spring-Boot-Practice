@@ -30,7 +30,7 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
     }
 
     @Test
-    public void given_employees_exists_when_listAll_then_list_of_employees_is_returned() {
+    public void given_employees_exists_when_listAllEmployees_then_list_of_employees_is_returned() {
         List<Employee> employees = new ArrayList<>();
         employees.add(new Employee(1L, "John", 30, "Male", 50000));
         employees.add(new Employee(2L, "Alice", 25, "Female", 60000));
@@ -53,7 +53,7 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
     }
 
     @Test
-    public void given_gender_exists_in_repository_when_findByGender_then_list_of_employees_with_matching_gender_is_returned() {
+    public void given_gender_exists_in_repository_when_findEmployeeByGender_then_list_of_employees_with_matching_gender_is_returned() {
         String gender = "Male";
         List<Employee> employeesWithGender = new ArrayList<>();
         employeesWithGender.add(new Employee(1L, "John", 30, "Male", 50000));
