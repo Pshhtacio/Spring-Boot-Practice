@@ -1,7 +1,7 @@
-package com.thoughtworks.springbootemployee.utility;
+package com.thoughtworks.springboot.employee.utility;
 
-import com.thoughtworks.springbootemployee.exception.EmployeeValidationException;
-import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springboot.employee.exception.EmployeeValidationException;
+import com.thoughtworks.springboot.employee.model.Employee;
 
 public class EmployeeValidator {
 

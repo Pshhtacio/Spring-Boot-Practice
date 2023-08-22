@@ -1,9 +1,9 @@
-package com.thoughtworks.springbootemployee.repository;
+package com.thoughtworks.springboot.employee.repository;
 
-import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
-import com.thoughtworks.springbootemployee.exception.EmployeeValidationException;
-import com.thoughtworks.springbootemployee.model.Employee;
-import com.thoughtworks.springbootemployee.utility.EmployeeValidator;
+import com.thoughtworks.springboot.employee.exception.EmployeeValidationException;
+import com.thoughtworks.springboot.employee.model.Employee;
+import com.thoughtworks.springboot.employee.utility.EmployeeValidator;
+import com.thoughtworks.springboot.employee.exception.EmployeeNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

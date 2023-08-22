@@ -1,7 +1,7 @@
-package com.thoughtworks.springbootemployee.controller;
+package com.thoughtworks.springboot.employee.controller;
 
-import com.thoughtworks.springbootemployee.model.Employee;
-import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import com.thoughtworks.springboot.employee.model.Employee;
+import com.thoughtworks.springboot.employee.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -83,7 +83,7 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
         Employee updatedEmployee = new Employee(employeeId, "The Name", 35, "Male", 60000);
 
         when(employeeRepository.updateEmployee(updatedEmployee)).thenReturn(updatedEmployee);
-        ResponseEntity<Object> result = employeeController.updateEmployee(employeeId, updatedEmployee);
+        ResponseEntity<Object> result = employeeController.updateEmployeeById(employeeId, updatedEmployee);
 
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals(updatedEmployee, result.getBody());
@@ -94,7 +94,7 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
         Long employeeIdToDelete = 1L;
 
         doNothing().when(employeeRepository).deleteEmployee(employeeIdToDelete);
-        ResponseEntity<Void> result = employeeController.deleteEmployee(employeeIdToDelete);
+        ResponseEntity<Void> result = employeeController.deleteEmployeeById(employeeIdToDelete);
 
         assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
         assertEquals(204, result.getStatusCodeValue());

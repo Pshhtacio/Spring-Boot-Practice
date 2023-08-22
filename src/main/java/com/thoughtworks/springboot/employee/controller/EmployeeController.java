@@ -1,9 +1,9 @@
-package com.thoughtworks.springbootemployee.controller;
+package com.thoughtworks.springboot.employee.controller;
 
-import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
-import com.thoughtworks.springbootemployee.exception.EmployeeValidationException;
-import com.thoughtworks.springbootemployee.model.Employee;
-import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import com.thoughtworks.springboot.employee.exception.EmployeeNotFoundException;
+import com.thoughtworks.springboot.employee.exception.EmployeeValidationException;
+import com.thoughtworks.springboot.employee.model.Employee;
+import com.thoughtworks.springboot.employee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +48,7 @@ public class EmployeeController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Object> updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
+    public ResponseEntity<Object> updateEmployeeById(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
         updatedEmployee.setId(id);
 
         try {
@@ -69,7 +69,7 @@ public class EmployeeController {
 
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteEmployeeById(@PathVariable Long id) {
         try {
             employeeRepository.deleteEmployee(id);
             return ResponseEntity.noContent().build();

@@ -1,6 +1,6 @@
-package com.thoughtworks.springbootemployee.repository;
+package com.thoughtworks.springboot.company.repository;
 
-import com.thoughtworks.springbootemployee.model.Company;
+import com.thoughtworks.springboot.company.model.Company;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -16,4 +16,7 @@ public class CompanyRepository {
         companies.add(new Company(2L, "Thoughtworks"));
     }
 
+    public List<Company> listAll() {
+        return companies;
+    }
 }

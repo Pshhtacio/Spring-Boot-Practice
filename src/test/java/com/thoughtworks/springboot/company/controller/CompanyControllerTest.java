@@ -1,7 +1,7 @@
-package com.thoughtworks.springbootcompany.controller;
+package com.thoughtworks.springboot.company.controller;
 
-import com.thoughtworks.springbootcompany.model.Company;
-import com.thoughtworks.springbootcompany.repository.CompanyRepository;
+import com.thoughtworks.springboot.company.model.Company;
+import com.thoughtworks.springboot.company.repository.CompanyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

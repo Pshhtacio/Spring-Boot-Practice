@@ -1,10 +1,10 @@
-package com.thoughtworks.springbootemployee;
+package com.thoughtworks.springboot.employee;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpringBootEmployeeApplicationTests {
+class SpringBootApplicationTests {
 
 	@Test
 	void contextLoads() {

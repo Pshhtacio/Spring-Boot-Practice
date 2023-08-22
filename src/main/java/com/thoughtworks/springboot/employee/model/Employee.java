@@ -1,4 +1,4 @@
-package com.thoughtworks.springbootemployee.model;
+package com.thoughtworks.springboot.employee.model;
 
 public class Employee {
     private Long id;
