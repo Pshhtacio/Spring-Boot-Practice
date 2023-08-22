@@ -2,9 +2,11 @@ package com.thoughtworks.springboot.company.model;
 
 import com.thoughtworks.springboot.employee.model.Employee;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+@Resource
 public class Company {
     private Long id;
     private String name;

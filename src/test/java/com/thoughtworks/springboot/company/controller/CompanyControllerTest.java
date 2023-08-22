@@ -2,6 +2,7 @@ package com.thoughtworks.springboot.company.controller;
 
 import com.thoughtworks.springboot.company.model.Company;
 import com.thoughtworks.springboot.company.repository.CompanyRepository;
+import com.thoughtworks.springboot.employee.model.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -48,9 +49,8 @@ public class CompanyControllerTest {//HAPPY CASE ONLY
         Company expectedCompany = new Company(companyId, "Company A");
 
         when(companyRepository.findById(companyId)).thenReturn(expectedCompany);
-        ResponseEntity<Company> response = companyController.findCompanyById(companyId);
+        Company result = companyController.findCompanyById(companyId);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(expectedCompany, response.getBody());
+        assertEquals(expectedCompany, result);
     }
 }
