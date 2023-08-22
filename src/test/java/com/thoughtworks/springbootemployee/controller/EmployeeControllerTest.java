@@ -7,13 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class EmployeeControllerTest { //HAPPY CASES ONLY
 
@@ -52,7 +53,7 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
     }
 
     @Test
-    public void given_gender_exists_in_repository_when_findByGender_then_list_o_employees_with_matching_gender_is_returned() {
+    public void given_gender_exists_in_repository_when_findByGender_then_list_of_employees_with_matching_gender_is_returned() {
         String gender = "Male";
         List<Employee> employeesWithGender = new ArrayList<>();
         employeesWithGender.add(new Employee(1L, "John", 30, "Male", 50000));
@@ -85,6 +86,18 @@ class EmployeeControllerTest { //HAPPY CASES ONLY
         Employee result = employeeController.updateEmployee(employeeId, updatedEmployee);
 
         assertEquals(updatedEmployee, result);
+    }
+
+    @Test
+    public void given_existing_employee_id_when_deleteEmployee_then_employee_is_deleted() {
+        Long employeeIdToDelete = 1L;
+
+        doNothing().when(employeeRepository).deleteEmployee(employeeIdToDelete);
+        ResponseEntity<Void> result = employeeController.deleteEmployee(employeeIdToDelete);
+
+        verify(employeeRepository, times(1)).deleteEmployee(employeeIdToDelete);
+        assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
+        assertEquals(204, result.getStatusCodeValue());
     }
 
     @Test
