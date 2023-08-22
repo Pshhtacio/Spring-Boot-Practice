@@ -1,9 +1,11 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.exception.EmployeeValidationException;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,9 +37,14 @@ public class EmployeeController {
     }
 
     @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    public Employee addEmployee(@RequestBody Employee employee) {
-        return employeeRepository.addEmployee(employee);
+    public ResponseEntity<Object> addEmployee(@RequestBody Employee employee) {
+        try {
+            Employee addedEmployee = employeeRepository.addEmployee(employee);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(addedEmployee);
+        } catch (EmployeeValidationException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
     @PutMapping(path = "/{id}")

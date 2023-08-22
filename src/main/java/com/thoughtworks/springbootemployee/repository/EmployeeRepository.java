@@ -1,8 +1,11 @@
 package com.thoughtworks.springbootemployee.repository;
 
 import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
+import com.thoughtworks.springbootemployee.exception.EmployeeValidationException;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.utility.EmployeeValidator;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -47,17 +50,22 @@ public class EmployeeRepository {
     }
 
     public Employee addEmployee(Employee employee) {
-        Long id = generateNextId();
-        EmployeeValidator.validateEmployee(employee);
+        try {
+            Long id = generateNextId();
+            EmployeeValidator.validateEmployee(employee);
 
-        Employee newEmployee = new Employee(id,
-                employee.getName(),
-                employee.getAge(),
-                employee.getGender(),
-                employee.getSalary());
+            Employee newEmployee = new Employee(id,
+                    employee.getName(),
+                    employee.getAge(),
+                    employee.getGender(),
+                    employee.getSalary());
 
-        employees.add(newEmployee);
-        return newEmployee;
+            employees.add(newEmployee);
+
+            return newEmployee;
+        } catch (EmployeeValidationException ex) {
+            throw new EmployeeValidationException(ex.getMessage());
+        }
     }
 
     public List<Employee> listByPage(Long pageNumber, Long pageSize) {
