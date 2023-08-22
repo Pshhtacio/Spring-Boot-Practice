@@ -73,6 +73,16 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void findByPage() {
+    public void given_pageNumber_and_pageSize_when_findByPage_then_list_of_employees_for_page_is_returned() {
+        Long pageNumber = 1L;
+        Long pageSize = 2L;
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(1L, "John", 30, "Male", 50000));
+        employees.add(new Employee(2L, "Alice", 25, "Female", 60000));
+
+        when(employeeRepository.listByPage(pageNumber, pageSize)).thenReturn(employees);
+        List<Employee> result = employeeController.findByPage(pageNumber, pageSize);
+
+        assertEquals(employees, result);
     }
 }
