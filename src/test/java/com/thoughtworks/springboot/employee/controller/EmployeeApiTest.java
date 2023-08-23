@@ -1,6 +1,7 @@
 package com.thoughtworks.springboot.employee.controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.springboot.employee.model.Employee;
 import com.thoughtworks.springboot.employee.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,10 +9,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -80,5 +83,21 @@ class EmployeeApiTest {
                 .andExpect(jsonPath("$[0].gender").value(johnDoe.getGender()))
                 .andExpect(jsonPath("$[0].salary").value(johnDoe.getSalary()));
     }
+
+    @Test
+    void should_return_the_employee_when_perform_post_employee_given_a_new_employee_with_json_format() throws Exception {
+        Employee newEmployee = new Employee("John Doe", 42, "Male", 696969);
+
+        mockMvcClient.perform(MockMvcRequestBuilders.post("/employees")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(newEmployee)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.name").value(newEmployee.getName()))
+                .andExpect(jsonPath("$.age").value(newEmployee.getAge()))
+                .andExpect(jsonPath("$.gender").value(newEmployee.getGender()))
+                .andExpect(jsonPath("$.salary").value(newEmployee.getSalary()));
+    }
+
 
 }
