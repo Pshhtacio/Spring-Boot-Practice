@@ -48,7 +48,11 @@ public class EmployeeService {
     public Employee findEmployeeById(Long id) {
         return employeeRepository.findById(id);
     }
-    
+
+    public List<Employee> findEmployeeByGender(String gender) {
+        return employeeRepository.findByGender(gender);
+    }
+
 
     private static void validateAge(Employee employee) {
         if (employee.hasInvalidAge()) {

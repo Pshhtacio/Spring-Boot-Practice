@@ -173,4 +173,29 @@ class EmployeeServiceTest {
     }
 
 
+    @Test
+    void should_return_filtered_employees_when_findEmployeeByGender_called_with_valid_gender() {
+        String gender = "Male";
+        List<Employee> mockEmployees = new ArrayList<>();
+        mockEmployees.add(new Employee(1L, "John Doe", 30, "Male", 50000));
+        mockEmployees.add(new Employee(3L, "Mike Johnson", 28, "Male", 60000));
+        when(mockedEmployeeRepository.findByGender(gender)).thenReturn(mockEmployees);
+
+        List<Employee> result = employeeService.findEmployeeByGender(gender);
+
+        assertEquals(2, result.size());
+        assertEquals("John Doe", result.get(0).getName());
+        assertEquals("Mike Johnson", result.get(1).getName());
+    }
+
+    @Test
+    void should_return_empty_list_when_findEmployeeByGender_called_with_invalid_gender() {
+        String invalidGender = "NonexistentGender";
+        when(mockedEmployeeRepository.findByGender(invalidGender)).thenReturn(new ArrayList<>());
+
+        List<Employee> result = employeeService.findEmployeeByGender(invalidGender);
+
+        assertTrue(result.isEmpty());
+    }
+
 }
