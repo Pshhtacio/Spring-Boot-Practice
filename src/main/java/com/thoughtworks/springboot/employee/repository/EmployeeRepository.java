@@ -76,9 +76,8 @@ public class EmployeeRepository {
                 .orElse(null);
 
         if (employeeToUpdate != null) {
-            employeeToUpdate.setName(updatedEmployee.getName());
-            employeeToUpdate.setGender(updatedEmployee.getGender());
             employeeToUpdate.setAge(updatedEmployee.getAge());
+            employeeToUpdate.setSalary(updatedEmployee.getSalary());
             return employeeToUpdate;
         } else {
             throw new EmployeeNotFoundException("Employee not found with id: " + updatedEmployee.getId());
