@@ -53,7 +53,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void should_set_isActive_to_true_when_new_employee_is_created_given_employee_service_and_valid_employee(){
+    void should_set_isActive_to_true_when_new_employee_is_created_given_employee_service_and_valid_employee() {
         //given
         Employee employee = new Employee(null, "Lucy", 20, "Female", 3000);
         Employee savedEmployee = new Employee(1L, "Lucy", 20, "Female", 3000);
@@ -65,6 +65,7 @@ class EmployeeServiceTest {
         //then
         assertEquals(savedEmployee.getIsActive(), employeeResponse.getIsActive());
     }
+
     @Test
     void should_set_isActive_to_false_when_existing_employee_is_deleted_given_employee_service_and_existing_employee_id() {
         // Given
