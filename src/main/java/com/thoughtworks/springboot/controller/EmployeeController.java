@@ -3,7 +3,7 @@ package com.thoughtworks.springboot.controller;
 import com.thoughtworks.springboot.exception.EmployeeNotFoundException;
 import com.thoughtworks.springboot.exception.EmployeeValidationException;
 import com.thoughtworks.springboot.model.Employee;
-import com.thoughtworks.springboot.repository.EmployeeRepository;
+import com.thoughtworks.springboot.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,32 +16,32 @@ import java.util.List;
 @RestController
 public class EmployeeController {
 
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeService employeeService;
 
     @Autowired
-    public EmployeeController(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
     @GetMapping
     public List<Employee> listAllEmployees() {
-        return employeeRepository.listAll();
+        return employeeService.listAllEmployees();
     }
 
     @GetMapping(path = "/{id}")
     public Employee findEmployeeById(@PathVariable Long id) {
-        return employeeRepository.findById(id);
+        return employeeService.findEmployeeById(id);
     }
 
     @GetMapping(params = {"gender"})
     public List<Employee> findEmployeeByGender(@RequestParam String gender) {
-        return employeeRepository.findByGender(gender);
+        return employeeService.findEmployeeByGender(gender);
     }
 
     @PostMapping()
     public ResponseEntity<Object> addEmployee(@RequestBody Employee employee) {
         try {
-            Employee addedEmployee = employeeRepository.addEmployee(employee);
+            Employee addedEmployee = employeeService.create(employee);
             return ResponseEntity.status(HttpStatus.CREATED).body(addedEmployee);
         } catch (EmployeeValidationException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
@@ -51,9 +51,8 @@ public class EmployeeController {
     @PutMapping(path = "/{id}")
     public ResponseEntity<Object> updateEmployeeById(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
         updatedEmployee.setId(id);
-
         try {
-            Employee updated = employeeRepository.updateEmployee(updatedEmployee);
+            Employee updated = employeeService.update(updatedEmployee);
 
             if (updated != null) {
                 return ResponseEntity.ok(updated);
@@ -71,7 +70,7 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteEmployeeById(@PathVariable Long id) {
         try {
-            employeeRepository.deleteEmployee(id);
+            employeeService.delete(id);
             return ResponseEntity.noContent().build();
         } catch (EmployeeNotFoundException ex) {
             return ResponseEntity.notFound().build();
@@ -80,7 +79,7 @@ public class EmployeeController {
 
     @GetMapping(params = {"pageNumber", "pageSize"})
     public List<Employee> findEmployeesByPage(@RequestParam Long pageNumber, @RequestParam Long pageSize) {
-        List<Employee> employees = employeeRepository.listByPage(pageNumber, pageSize);
+        List<Employee> employees = employeeService.findEmployeesByPage(pageNumber, pageSize);
         if (employees.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No employees found for the specified page.");
         }
