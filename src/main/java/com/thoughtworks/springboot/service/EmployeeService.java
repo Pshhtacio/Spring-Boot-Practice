@@ -15,8 +15,8 @@ public class EmployeeService {
     }
 
     public Employee create(Employee employee) {
-        if(employee.hasInvalidAge()){
-            throw  new EmployeeCreateException("Employee must be 18-65");
+        if (employee.hasInvalidAge()) {
+            throw new EmployeeCreateException("Employee must be 18-65");
         }
         return employeeRepository.insert(employee);
     }
@@ -29,8 +29,7 @@ public class EmployeeService {
         } else {
             existingEmployee.setIsActive(false);
             employeeRepository.updateEmployee(existingEmployee);
-        return true;
-    }
-
+            return true;
+        }
     }
 }

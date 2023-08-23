@@ -3,7 +3,6 @@ package com.thoughtworks.springboot.service;
 import com.thoughtworks.springboot.exception.EmployeeCreateException;
 import com.thoughtworks.springboot.model.Employee;
 import com.thoughtworks.springboot.repository.EmployeeRepository;
-import com.thoughtworks.springboot.service.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
