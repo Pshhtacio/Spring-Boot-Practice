@@ -109,6 +109,7 @@ public class EmployeeRepository {
     }
 
     public Employee insert(Employee employee) {
+        employee.setId(generateNextId());
         employees.add(employee);
         return employees.get(0);
     }

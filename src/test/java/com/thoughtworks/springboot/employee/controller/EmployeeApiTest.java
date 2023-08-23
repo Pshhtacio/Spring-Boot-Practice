@@ -34,7 +34,7 @@ class EmployeeApiTest {
     }
 
     @Test
-    void should_return_all_given_employees_when_perform_get_employees() throws Exception{
+    void should_return_all_given_employees_when_perform_get_employees() throws Exception {
         Employee johnDoe = employeeRepository.insert(new Employee("John Doe", 42, "Male", 696969));
         mockMvcClient.perform(MockMvcRequestBuilders.get("/employees"))
                 .andExpect(status().isOk())
@@ -47,16 +47,24 @@ class EmployeeApiTest {
     }
 
     @Test
-    void should_return_the_employees_when_perform_get_employee_given_an_employeed_id() throws Exception{
+    void should_return_the_employees_when_perform_get_employee_given_an_employeed_id() throws Exception {
         Employee johnDoe = employeeRepository.insert(new Employee("John Doe", 42, "Male", 696969));
         employeeRepository.insert(new Employee("Jane Doe", 69, "Female", 101010));
+
         mockMvcClient.perform(MockMvcRequestBuilders.get("/employees/" + johnDoe.getId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(johnDoe.getId()))
-                .andExpect(jsonPath("$[0].name").value(johnDoe.getName()))
-                .andExpect(jsonPath("$[0].age").value(johnDoe.getAge()))
-                .andExpect(jsonPath("$[0].gender").value(johnDoe.getGender()))
-                .andExpect(jsonPath("$[0].salary").value(johnDoe.getSalary()));
+                .andExpect(jsonPath("$.id").value(johnDoe.getId()))
+                .andExpect(jsonPath("$.name").value(johnDoe.getName()))
+                .andExpect(jsonPath("$.age").value(johnDoe.getAge()))
+                .andExpect(jsonPath("$.gender").value(johnDoe.getGender()))
+                .andExpect(jsonPath("$.salary").value(johnDoe.getSalary()));
+    }
+
+    @Test
+    void should_return_404_not_found_when_perform_get_employee_given_a_nonexistent_id() throws Exception {
+        Long nonExistentEmployeeId = 99L;
+        mockMvcClient.perform(MockMvcRequestBuilders.get("/employees/" + nonExistentEmployeeId))
+                .andExpect(status().isNotFound());
     }
 
 }
