@@ -99,5 +99,20 @@ class EmployeeApiTest {
                 .andExpect(jsonPath("$.salary").value(newEmployee.getSalary()));
     }
 
+    @Test
+    void should_return_updated_employee_by_given_id_when_perform_put_employee() throws Exception {
+        Employee johnDoe = employeeRepository.insert(new Employee("John Doe", 42, "Male", 696969));
+        Employee updatedEmployee = new Employee(johnDoe.getId(), "John Doe", 69, "Male", 426942);
+
+        mockMvcClient.perform(MockMvcRequestBuilders.put("/employees/" + johnDoe.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(updatedEmployee)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(updatedEmployee.getId()))
+                .andExpect(jsonPath("$.name").value(updatedEmployee.getName()))
+                .andExpect(jsonPath("$.age").value(updatedEmployee.getAge()))
+                .andExpect(jsonPath("$.gender").value(updatedEmployee.getGender()))
+                .andExpect(jsonPath("$.salary").value(updatedEmployee.getSalary()));
+    }
 
 }
