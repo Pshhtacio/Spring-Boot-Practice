@@ -32,12 +32,6 @@ public class EmployeeService {
 
     public Employee update(Employee updatedEmployee) {
         Employee existingEmployee = getExistingEmployee(updatedEmployee.getId());
-
-        existingEmployee.setName(updatedEmployee.getName());
-        existingEmployee.setAge(updatedEmployee.getAge());
-        existingEmployee.setGender(updatedEmployee.getGender());
-        existingEmployee.setSalary(updatedEmployee.getSalary());
-
         return employeeRepository.updateEmployee(existingEmployee);
     }
 
@@ -46,7 +40,11 @@ public class EmployeeService {
     }
 
     public Employee findEmployeeById(Long id) {
-        return employeeRepository.findById(id);
+        Employee employee = employeeRepository.findById(id);
+        if (employee == null) {
+            throw new EmployeeNotFoundException("Employee not found with id: " + id);
+        }
+        return employee;
     }
 
     public List<Employee> findEmployeeByGender(String gender) {

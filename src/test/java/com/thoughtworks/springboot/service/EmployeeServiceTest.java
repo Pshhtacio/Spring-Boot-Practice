@@ -23,22 +23,19 @@ class EmployeeServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this); // Initialize the mocks
+        MockitoAnnotations.openMocks(this);
         mockedEmployeeRepository = mock(EmployeeRepository.class);
         employeeService = new EmployeeService(mockedEmployeeRepository);
     }
 
     @Test
     void should_return_created_employee_when_create_given_employee_service_and_employee_with_valid_age() {
-        //given
         Employee employee = new Employee(null, "Lucy", 20, "Female", 3000);
         Employee savedEmployee = new Employee(1L, "Lucy", 20, "Female", 3000);
         when(mockedEmployeeRepository.insert(employee)).thenReturn(savedEmployee);
 
-        //when
         Employee employeeResponse = employeeService.create(employee);
 
-        //then
         assertEquals(savedEmployee.getId(), employeeResponse.getId());
         assertEquals("Lucy", employee.getName());
         assertEquals(20, employee.getAge());
@@ -48,15 +45,12 @@ class EmployeeServiceTest {
 
     @Test
     void should_throw_exception_when_create_given_employee_service_and_employee_whose_age_is_less_than_18() {
-        //Given
         Employee employee = new Employee(null, "Lucy", 17, "Female", 3000);
 
-        //When
         EmployeeCreateException employeeCreateException = assertThrows(EmployeeCreateException.class, () -> {
             employeeService.create(employee);
         });
 
-        //then
         assertEquals("Employee must be 18-65", employeeCreateException.getMessage());
     }
 
