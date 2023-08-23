@@ -1,7 +1,8 @@
-package com.thoughtworks.springboot.employee.controller;
+package com.thoughtworks.springboot.controller;
 
-import com.thoughtworks.springboot.employee.model.Employee;
-import com.thoughtworks.springboot.employee.repository.EmployeeRepository;
+import com.thoughtworks.springboot.controller.EmployeeController;
+import com.thoughtworks.springboot.model.Employee;
+import com.thoughtworks.springboot.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

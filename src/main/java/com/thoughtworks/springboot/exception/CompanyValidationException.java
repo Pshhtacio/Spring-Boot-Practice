@@ -1,4 +1,4 @@
-package com.thoughtworks.springboot.company.exception;
+package com.thoughtworks.springboot.exception;
 
 public class CompanyValidationException extends RuntimeException {
     public CompanyValidationException(String message) {

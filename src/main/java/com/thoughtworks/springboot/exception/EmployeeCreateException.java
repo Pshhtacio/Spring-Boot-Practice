@@ -1,4 +1,4 @@
-package com.thoughtworks.springboot.employee.exception;
+package com.thoughtworks.springboot.exception;
 
 public class EmployeeCreateException extends RuntimeException{
     public EmployeeCreateException() {

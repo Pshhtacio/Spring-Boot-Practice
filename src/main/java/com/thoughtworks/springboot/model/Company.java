@@ -1,4 +1,4 @@
-package com.thoughtworks.springboot.company.model;
+package com.thoughtworks.springboot.model;
 
 import javax.annotation.Resource;
 

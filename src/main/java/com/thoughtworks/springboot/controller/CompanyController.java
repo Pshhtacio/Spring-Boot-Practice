@@ -1,11 +1,11 @@
-package com.thoughtworks.springboot.company.controller;
+package com.thoughtworks.springboot.controller;
 
-import com.thoughtworks.springboot.company.exception.CompanyNotFoundException;
-import com.thoughtworks.springboot.company.exception.CompanyValidationException;
-import com.thoughtworks.springboot.company.model.Company;
-import com.thoughtworks.springboot.company.repository.CompanyRepository;
-import com.thoughtworks.springboot.employee.exception.EmployeeValidationException;
-import com.thoughtworks.springboot.employee.model.Employee;
+import com.thoughtworks.springboot.exception.CompanyNotFoundException;
+import com.thoughtworks.springboot.exception.CompanyValidationException;
+import com.thoughtworks.springboot.model.Company;
+import com.thoughtworks.springboot.repository.CompanyRepository;
+import com.thoughtworks.springboot.exception.EmployeeValidationException;
+import com.thoughtworks.springboot.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

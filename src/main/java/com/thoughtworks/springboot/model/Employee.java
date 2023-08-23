@@ -1,4 +1,4 @@
-package com.thoughtworks.springboot.employee.model;
+package com.thoughtworks.springboot.model;
 
 public class Employee {
     private static final Long MIN_VALID_AGE = 18L;
