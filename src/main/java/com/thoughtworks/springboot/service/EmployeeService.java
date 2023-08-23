@@ -53,6 +53,12 @@ public class EmployeeService {
         return employeeRepository.findByGender(gender);
     }
 
+    public List<Employee> findEmployeesByPage(Long pageNumber, Long pageSize) {
+        if (pageNumber <= 0 || pageSize <= 0) {
+            throw new IllegalArgumentException("Page number and page size must be greater than zero.");
+        }
+        return employeeRepository.listByPage(pageNumber, pageSize);
+    }
 
     private static void validateAge(Employee employee) {
         if (employee.hasInvalidAge()) {

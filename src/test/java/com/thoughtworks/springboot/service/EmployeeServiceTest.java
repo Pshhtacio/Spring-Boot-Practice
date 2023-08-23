@@ -172,7 +172,6 @@ class EmployeeServiceTest {
         });
     }
 
-
     @Test
     void should_return_filtered_employees_when_findEmployeeByGender_called_with_valid_gender() {
         String gender = "Male";
@@ -198,4 +197,29 @@ class EmployeeServiceTest {
         assertTrue(result.isEmpty());
     }
 
+    @Test
+    void should_return_employees_by_page_when_findEmployeesByPage_called_with_valid_page() {
+        Long pageNumber = 1L;
+        Long pageSize = 2L;
+        List<Employee> mockEmployees = new ArrayList<>();
+        mockEmployees.add(new Employee(1L, "John Doe", 30, "Male", 50000));
+        mockEmployees.add(new Employee(2L, "Jane Smith", 25, "Female", 45000));
+        when(mockedEmployeeRepository.listByPage(pageNumber, pageSize)).thenReturn(mockEmployees);
+
+        List<Employee> result = employeeService.findEmployeesByPage(pageNumber, pageSize);
+
+        assertEquals(2, result.size());
+        assertEquals("John Doe", result.get(0).getName());
+        assertEquals("Jane Smith", result.get(1).getName());
+    }
+
+    @Test
+    void should_throw_exception_when_findEmployeesByPage_called_with_invalid_page() {
+        Long invalidPageNumber = -1L;
+        Long pageSize = 2L;
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            employeeService.findEmployeesByPage(invalidPageNumber, pageSize);
+        });
+    }
 }
