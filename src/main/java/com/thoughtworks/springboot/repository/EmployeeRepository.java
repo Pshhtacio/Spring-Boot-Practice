@@ -109,8 +109,9 @@ public class EmployeeRepository {
     }
 
     public Employee insert(Employee employee) {
-        employee.setId(generateNextId());
-        employees.add(employee);
-        return employees.get(0);
+        Long id = generateNextId();
+        Employee newEmployee = new Employee(id, employee.getName(), employee.getAge(), employee.getGender(), employee.getSalary());
+        employees.add(newEmployee);
+        return newEmployee;
     }
 }
