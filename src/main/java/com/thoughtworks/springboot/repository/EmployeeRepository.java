@@ -39,7 +39,7 @@ public class EmployeeRepository {
         return employees.stream()
                 .filter(employee -> employee.getId().equals(id))
                 .findFirst()
-                .orElseThrow(EmployeeNotFoundException::new);
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
     }
 
     public List<Employee> findByGender(String gender) {

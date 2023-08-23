@@ -6,6 +6,8 @@ import com.thoughtworks.springboot.model.Employee;
 import com.thoughtworks.springboot.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EmployeeService {
 
@@ -38,6 +40,11 @@ public class EmployeeService {
 
         return employeeRepository.updateEmployee(existingEmployee);
     }
+
+    public List<Employee> listAllEmployees() {
+        return employeeRepository.listAll();
+    }
+
 
     private static void validateAge(Employee employee) {
         if (employee.hasInvalidAge()) {

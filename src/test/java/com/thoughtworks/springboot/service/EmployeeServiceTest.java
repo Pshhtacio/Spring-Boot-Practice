@@ -136,4 +136,18 @@ class EmployeeServiceTest {
         });
     }
 
+    @Test
+    void should_return_all_employees_when_listAllEmployees_called() {
+        List<Employee> mockEmployees = new ArrayList<>();
+        mockEmployees.add(new Employee(1L, "John Doe", 30, "Male", 50000));
+        mockEmployees.add(new Employee(2L, "Jane Smith", 25, "Female", 45000));
+        when(mockedEmployeeRepository.listAll()).thenReturn(mockEmployees);
+
+        List<Employee> result = employeeService.listAllEmployees();
+
+        assertEquals(2, result.size());
+        assertEquals("John Doe", result.get(0).getName());
+        assertEquals("Jane Smith", result.get(1).getName());
+    }
+
 }
