@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -78,7 +79,11 @@ public class EmployeeController {
     }
 
     @GetMapping(params = {"pageNumber", "pageSize"})
-    public List<Employee> findEmployeesByPage(@RequestParam Long pageNumber, Long pageSize) {
-        return employeeRepository.listByPage(pageNumber, pageSize);
+    public List<Employee> findEmployeesByPage(@RequestParam Long pageNumber, @RequestParam Long pageSize) {
+        List<Employee> employees = employeeRepository.listByPage(pageNumber, pageSize);
+        if (employees.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No employees found for the specified page.");
+        }
+        return employees;
     }
 }

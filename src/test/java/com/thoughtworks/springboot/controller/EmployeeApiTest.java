@@ -49,7 +49,7 @@ class EmployeeApiTest {
     }
 
     @Test
-    void should_return_the_employees_when_perform_get_employee_given_an_employeed_id() throws Exception {
+    void should_return_the_employees_when_perform_get_employee_given_an_employee_id() throws Exception {
         Employee johnDoe = employeeRepository.insert(new Employee("John Doe", 42, "Male", 696969));
         employeeRepository.insert(new Employee("Jane Doe", 69, "Female", 101010));
 
@@ -64,7 +64,7 @@ class EmployeeApiTest {
 
     @Test
     void should_return_404_not_found_when_perform_get_employee_given_a_nonexistent_id() throws Exception {
-        Long nonExistentEmployeeId = 99L;
+        long nonExistentEmployeeId = 99L;
         mockMvcClient.perform(MockMvcRequestBuilders.get("/employees/" + nonExistentEmployeeId))
                 .andExpect(status().isNotFound());
     }
@@ -145,5 +145,16 @@ class EmployeeApiTest {
                 .andExpect(jsonPath("$[1].gender").value("Female"))
                 .andExpect(jsonPath("$[0].salary").value(johnDoe.getSalary()))
                 .andExpect(jsonPath("$[1].salary").value(101010));
+    }
+
+    @Test
+    void should_return_404_not_found_when_perform_get_employee_given_a_nonexistent_pageNumber() throws Exception {
+        Long nonExistentPageNumber = 99L;
+        Long pageSize = 2L;
+
+        mockMvcClient.perform(MockMvcRequestBuilders.get("/employees")
+                        .param("pageNumber", String.valueOf(nonExistentPageNumber))
+                        .param("pageSize", String.valueOf(pageSize)))
+                .andExpect(status().isNotFound());
     }
 }
