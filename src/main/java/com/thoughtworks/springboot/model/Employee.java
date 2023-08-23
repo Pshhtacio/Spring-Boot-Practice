@@ -10,6 +10,8 @@ public class Employee {
     private String gender;
     private Integer salary;
 
+    private Long companyId;
+
     public Employee() {
         this.isActive = true;
     }
@@ -31,6 +33,14 @@ public class Employee {
         this.isActive = true;
     }
 
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
+
     public Boolean getIsActive() {
         return isActive;
     }
@@ -39,9 +49,10 @@ public class Employee {
         isActive = active;
     }
 
-    public boolean hasInvalidAge(){
+    public boolean hasInvalidAge() {
         return getAge() < MIN_VALID_AGE || getAge() > MAX_VALID_AGE;
     }
+
     public Long getId() {
         return id;
     }
