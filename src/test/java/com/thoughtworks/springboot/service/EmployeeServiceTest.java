@@ -1,21 +1,29 @@
 package com.thoughtworks.springboot.service;
 
 import com.thoughtworks.springboot.exception.EmployeeCreateException;
+import com.thoughtworks.springboot.exception.EmployeeNotFoundException;
 import com.thoughtworks.springboot.model.Employee;
 import com.thoughtworks.springboot.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class EmployeeServiceTest {
 
+
     private EmployeeService employeeService;
     private EmployeeRepository mockedEmployeeRepository;
 
     @BeforeEach
     void setUp() {
+        MockitoAnnotations.openMocks(this); // Initialize the mocks
         mockedEmployeeRepository = mock(EmployeeRepository.class);
         employeeService = new EmployeeService(mockedEmployeeRepository);
     }
@@ -91,4 +99,41 @@ class EmployeeServiceTest {
             return true;
         }));
     }
+
+    @Test
+    void should_update_employee_when_update_given_employee_service_and_valid_employee() {
+        Long employeeId = 1L;
+        Employee existingEmployee = new Employee(employeeId, "Lucy", 20, "Female", 3000);
+        Employee updatedEmployee = new Employee(employeeId, "Updated Name", 21, "Female", 426969);
+
+        when(mockedEmployeeRepository.findById(employeeId)).thenReturn(existingEmployee);
+        when(mockedEmployeeRepository.updateEmployee(updatedEmployee)).thenReturn(updatedEmployee);
+
+        Employee result = employeeService.update(updatedEmployee);
+
+        assertEquals(updatedEmployee.getAge(), result.getAge());
+        assertEquals(updatedEmployee.getSalary(), result.getSalary());
+        assertTrue(existingEmployee.getIsActive());
+
+        ArgumentCaptor<Employee> employeeCaptor = ArgumentCaptor.forClass(Employee.class);
+        verify(mockedEmployeeRepository).updateEmployee(employeeCaptor.capture());
+
+        Employee updatedResultEmployee = employeeCaptor.getValue();
+        assertTrue(updatedResultEmployee.getIsActive());
+        assertEquals(employeeId, updatedResultEmployee.getId());
+        assertEquals(21, updatedResultEmployee.getAge());
+        assertEquals(426969, updatedResultEmployee.getSalary());
+    }
+
+    @Test
+    void should_throw_exception_when_update_given_employee_service_and_invalid_employee() {
+        long invalidEmployeeId = 99L;
+        Employee updatedEmployee = new Employee(1L, "Updated Name", 21, "Female", 4000);
+        when(mockedEmployeeRepository.findById(invalidEmployeeId)).thenReturn(null);
+
+        assertThrows(EmployeeNotFoundException.class, () -> {
+            employeeService.update(updatedEmployee);
+        });
+    }
+
 }
