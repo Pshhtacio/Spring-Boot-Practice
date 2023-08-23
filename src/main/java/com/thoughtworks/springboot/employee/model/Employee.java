@@ -1,6 +1,8 @@
 package com.thoughtworks.springboot.employee.model;
 
 public class Employee {
+    private static final Long MIN_VALID_AGE = 18L;
+    private static final Long MAX_VALID_AGE = 65L;
     private Long id;
     private String name;
     private Integer age;
@@ -25,6 +27,9 @@ public class Employee {
         this.salary = salary;
     }
 
+    public boolean hasInvalidAge(){
+        return getAge() < MIN_VALID_AGE || getAge() > MAX_VALID_AGE;
+    }
     public Long getId() {
         return id;
     }
