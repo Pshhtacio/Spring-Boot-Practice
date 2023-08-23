@@ -6,10 +6,8 @@ import com.thoughtworks.springboot.employee.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class EmployeeServiceTest {
 
@@ -55,7 +53,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void should_set_status_to_active_when_new_employee_is_created_given_given_employee_service_and_valid_employee(){
+    void should_set_isActive_to_true_when_new_employee_is_created_given_employee_service_and_valid_employee(){
         //given
         Employee employee = new Employee(null, "Lucy", 20, "Female", 3000);
         Employee savedEmployee = new Employee(1L, "Lucy", 20, "Female", 3000);
@@ -65,6 +63,31 @@ class EmployeeServiceTest {
         Employee employeeResponse = employeeService.create(employee);
 
         //then
-        assertEquals(savedEmployee.getActive(), employeeResponse.getActive());
+        assertEquals(savedEmployee.getIsActive(), employeeResponse.getIsActive());
+    }
+    @Test
+    void should_set_isActive_to_false_when_existing_employee_is_deleted_given_employee_service_and_existing_employee_id() {
+        // Given
+        Long employeeId = 1L;
+        Employee existingEmployee = new Employee(1L, "Lucy", 20, "Female", 3000);
+        when(mockedEmployeeRepository.findById(employeeId)).thenReturn(existingEmployee);
+
+        // When
+        boolean isEmployeeDeleted = employeeService.deleteEmployee(employeeId);
+
+        // Then
+        assertTrue(isEmployeeDeleted);
+        assertFalse(existingEmployee.getIsActive());
+
+        verify(mockedEmployeeRepository).updateEmployee(argThat(tempEmployee -> {
+            assertFalse(tempEmployee.getIsActive());
+            assertEquals(employeeId, tempEmployee.getId());
+            assertEquals("Lucy", tempEmployee.getName());
+            assertEquals(20, tempEmployee.getAge());
+            assertEquals("Female", tempEmployee.getGender());
+            assertEquals(3000, tempEmployee.getSalary());
+
+            return true;
+        }));
     }
 }
