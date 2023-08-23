@@ -45,10 +45,10 @@ public class EmployeeService {
         return employeeRepository.listAll();
     }
 
-
     public Employee findEmployeeById(Long id) {
         return employeeRepository.findById(id);
     }
+    
 
     private static void validateAge(Employee employee) {
         if (employee.hasInvalidAge()) {
