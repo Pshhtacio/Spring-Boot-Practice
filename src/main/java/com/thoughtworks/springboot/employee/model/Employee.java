@@ -3,6 +3,7 @@ package com.thoughtworks.springboot.employee.model;
 public class Employee {
     private static final Long MIN_VALID_AGE = 18L;
     private static final Long MAX_VALID_AGE = 65L;
+    private Boolean isActive;
     private Long id;
     private String name;
     private Integer age;
@@ -10,6 +11,7 @@ public class Employee {
     private Integer salary;
 
     public Employee() {
+        this.isActive = true;
     }
 
     public Employee(Long id, String name, Integer age, String gender, Integer salary) {
@@ -18,6 +20,7 @@ public class Employee {
         this.age = age;
         this.gender = gender;
         this.salary = salary;
+        this.isActive = true;
     }
 
     public Employee(String name, int age, String gender, int salary) {
@@ -25,6 +28,15 @@ public class Employee {
         this.age = age;
         this.gender = gender;
         this.salary = salary;
+        this.isActive = true;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
     public boolean hasInvalidAge(){
