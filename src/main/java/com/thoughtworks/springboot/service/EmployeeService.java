@@ -46,6 +46,10 @@ public class EmployeeService {
     }
 
 
+    public Employee findEmployeeById(Long id) {
+        return employeeRepository.findById(id);
+    }
+
     private static void validateAge(Employee employee) {
         if (employee.hasInvalidAge()) {
             throw new EmployeeCreateException("Employee must be 18-65");

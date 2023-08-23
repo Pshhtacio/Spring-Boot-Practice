@@ -150,4 +150,27 @@ class EmployeeServiceTest {
         assertEquals("Jane Smith", result.get(1).getName());
     }
 
+    @Test
+    void should_return_employee_when_findEmployeeById_called_with_valid_id() {
+        Long employeeId = 1L;
+        Employee mockEmployee = new Employee(employeeId, "John Doe", 30, "Male", 50000);
+        when(mockedEmployeeRepository.findById(employeeId)).thenReturn(mockEmployee);
+
+        Employee result = employeeService.findEmployeeById(employeeId);
+
+        assertEquals(employeeId, result.getId());
+        assertEquals("John Doe", result.getName());
+    }
+
+    @Test
+    void should_throw_exception_when_findEmployeeById_called_with_invalid_id() {
+        Long invalidEmployeeId = 99L;
+        when(mockedEmployeeRepository.findById(invalidEmployeeId)).thenReturn(null);
+
+        assertThrows(EmployeeNotFoundException.class, () -> {
+            employeeService.findEmployeeById(invalidEmployeeId);
+        });
+    }
+
+
 }
