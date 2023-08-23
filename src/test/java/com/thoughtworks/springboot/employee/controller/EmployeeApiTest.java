@@ -121,6 +121,24 @@ class EmployeeApiTest {
 
         mockMvcClient.perform(MockMvcRequestBuilders.delete("/employees/" + johnDoe.getId()))
                 .andExpect(status().isNoContent());
+    }
 
+    @Test
+    void should_return_page_of_employees_when_get_employees_by_given_page_number_and_page_size() throws Exception {
+        Long pageNumber = 1L;
+        Long pageSize = 2L;
+        Employee johnDoe = employeeRepository.insert(new Employee("John Doe", 42, "Male", 696969));
+        employeeRepository.insert(new Employee("Jane Doe", 69, "Female", 101010));
+
+        mockMvcClient.perform(MockMvcRequestBuilders.get("/employees")
+                        .param("pageNumber", String.valueOf(pageNumber))
+                        .param("pageSize", String.valueOf(pageSize)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id").value(johnDoe.getId()))
+                .andExpect(jsonPath("$[0].name").value(johnDoe.getName()))
+                .andExpect(jsonPath("$[0].age").value(johnDoe.getAge()))
+                .andExpect(jsonPath("$[0].gender").value(johnDoe.getGender()))
+                .andExpect(jsonPath("$[0].salary").value(johnDoe.getSalary()));
     }
 }
