@@ -21,7 +21,7 @@ public class EmployeeService {
         return employeeRepository.insert(employee);
     }
 
-    public boolean deleteEmployee(Long employeeId) {
+    public boolean delete(Long employeeId) {
         Employee existingEmployee = employeeRepository.findById(employeeId);
 
         if (existingEmployee == null) {

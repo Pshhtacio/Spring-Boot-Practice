@@ -74,7 +74,7 @@ class EmployeeServiceTest {
         when(mockedEmployeeRepository.findById(employeeId)).thenReturn(existingEmployee);
 
         // When
-        boolean isEmployeeDeleted = employeeService.deleteEmployee(employeeId);
+        boolean isEmployeeDeleted = employeeService.delete(employeeId);
 
         // Then
         assertTrue(isEmployeeDeleted);
