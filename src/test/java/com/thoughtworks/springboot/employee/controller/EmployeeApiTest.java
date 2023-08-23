@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -115,4 +114,13 @@ class EmployeeApiTest {
                 .andExpect(jsonPath("$.salary").value(updatedEmployee.getSalary()));
     }
 
+    @Test
+    void should_return_204_when_perform_delete_employee_by_given_id() throws Exception {
+        Employee johnDoe = employeeRepository.insert(new Employee("John Doe", 42, "Male", 696969));
+        employeeRepository.insert(new Employee("Jane Doe", 69, "Female", 101010));
+
+        mockMvcClient.perform(MockMvcRequestBuilders.delete("/employees/" + johnDoe.getId()))
+                .andExpect(status().isNoContent());
+
+    }
 }
