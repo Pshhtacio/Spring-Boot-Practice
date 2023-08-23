@@ -1,14 +1,13 @@
 package com.thoughtworks.springboot.repository;
 
+import com.thoughtworks.springboot.exception.EmployeeNotFoundException;
 import com.thoughtworks.springboot.exception.EmployeeValidationException;
 import com.thoughtworks.springboot.model.Employee;
 import com.thoughtworks.springboot.utility.EmployeeValidator;
-import com.thoughtworks.springboot.exception.EmployeeNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -67,7 +66,7 @@ public class EmployeeRepository {
         }
     }
 
-    public Employee updateEmployee(Employee updatedEmployee) {
+    public Employee updateEmployee(Employee updatedEmployee) throws EmployeeValidationException {
         EmployeeValidator.validateEmployee(updatedEmployee);
 
         Employee employeeToUpdate = employees.stream()
@@ -82,18 +81,6 @@ public class EmployeeRepository {
             return employeeToUpdate;
         } else {
             throw new EmployeeNotFoundException("Employee not found with id: " + updatedEmployee.getId());
-        }
-    }
-
-    public void deleteEmployee(Long id) {
-        Optional<Employee> employeeToDelete = employees.stream()
-                .filter(employee -> employee.getId().equals(id))
-                .findFirst();
-
-        if (employeeToDelete.isPresent()) {
-            employees.remove(employeeToDelete.get());
-        } else {
-            throw new EmployeeNotFoundException("Employee not found with ID: " + id);
         }
     }
 
