@@ -1,9 +1,8 @@
 package com.thoughtworks.springboot.controller;
 
-import com.thoughtworks.springboot.controller.CompanyController;
 import com.thoughtworks.springboot.model.Company;
-import com.thoughtworks.springboot.repository.CompanyRepository;
 import com.thoughtworks.springboot.model.Employee;
+import com.thoughtworks.springboot.repository.CompanyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -62,7 +61,7 @@ class CompanyControllerTest {//HAPPY CASE ONLY
         Long companyId = 1L;
 
         Employee employee1 = new Employee(1L, "John", 14, "Male", 5000);
-        Employee employee2 = new Employee(2L, "Jane", 25, "Female",10000);
+        Employee employee2 = new Employee(2L, "Jane", 25, "Female", 10000);
         List<Employee> employees = Arrays.asList(employee1, employee2);
 
         when(companyRepository.getEmployeesByCompanyId(companyId)).thenReturn(employees);
