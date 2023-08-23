@@ -103,4 +103,13 @@ public class EmployeeRepository {
                 .limit(pageSize)
                 .collect(Collectors.toList());
     }
+
+    public void cleanUpEmployeeData() {
+        employees.clear();
+    }
+
+    public Employee insert(Employee employee) {
+        employees.add(employee);
+        return employees.get(0);
+    }
 }
