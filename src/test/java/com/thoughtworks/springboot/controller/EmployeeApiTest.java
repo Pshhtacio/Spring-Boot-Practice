@@ -136,9 +136,14 @@ class EmployeeApiTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id").value(johnDoe.getId()))
+                .andExpect(jsonPath("$[1].id").value(2L))
                 .andExpect(jsonPath("$[0].name").value(johnDoe.getName()))
+                .andExpect(jsonPath("$[1].name").value("Jane Doe"))
                 .andExpect(jsonPath("$[0].age").value(johnDoe.getAge()))
+                .andExpect(jsonPath("$[1].age").value(69))
                 .andExpect(jsonPath("$[0].gender").value(johnDoe.getGender()))
-                .andExpect(jsonPath("$[0].salary").value(johnDoe.getSalary()));
+                .andExpect(jsonPath("$[1].gender").value("Female"))
+                .andExpect(jsonPath("$[0].salary").value(johnDoe.getSalary()))
+                .andExpect(jsonPath("$[1].salary").value(101010));
     }
 }
