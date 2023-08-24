@@ -41,6 +41,7 @@ public class EmployeeController {
     @PostMapping()
     public ResponseEntity<Object> addEmployee(@RequestBody Employee employee) {
         try {
+            //TODO Handle validation handling in Employee Service
             Employee addedEmployee = employeeService.create(employee);
             return ResponseEntity.status(HttpStatus.CREATED).body(addedEmployee);
         } catch (EmployeeValidationException ex) {
@@ -52,6 +53,7 @@ public class EmployeeController {
     public ResponseEntity<Object> updateEmployeeById(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
         updatedEmployee.setId(id);
         try {
+            //TODO Handle validation handling in Employee Service
             Employee updated = employeeService.update(updatedEmployee);
 
             if (updated != null) {
@@ -70,6 +72,7 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteEmployeeById(@PathVariable Long id) {
         try {
+            //TODO Handle validation handling in Employee Service
             employeeService.delete(id);
             return ResponseEntity.noContent().build();
         } catch (EmployeeNotFoundException ex) {
@@ -80,6 +83,7 @@ public class EmployeeController {
     @GetMapping(params = {"pageNumber", "pageSize"})
     public List<Employee> findEmployeesByPage(@RequestParam Long pageNumber, @RequestParam Long pageSize) {
         List<Employee> employees = employeeService.findEmployeesByPage(pageNumber, pageSize);
+        //TODO Handle validation handling in Employee Service
         if (employees.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No employees found for the specified page.");
         }

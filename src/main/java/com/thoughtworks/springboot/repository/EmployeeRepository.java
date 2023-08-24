@@ -59,7 +59,7 @@ public class EmployeeRepository {
                     employee.getSalary());
 
             employees.add(newEmployee);
-
+            //TODO Handle Business Logic and Validation in service, reference day8-Spring Boot.pdf page 8
             return newEmployee;
         } catch (EmployeeValidationException ex) {
             throw new EmployeeValidationException(ex.getMessage());
@@ -73,7 +73,7 @@ public class EmployeeRepository {
                 .filter(employee -> employee.getId().equals(updatedEmployee.getId()))
                 .findFirst()
                 .orElse(null);
-
+        //TODO Handle Business Logic and Validation in service, reference day8-Spring Boot.pdf page 8
         if (employeeToUpdate != null) {
             employeeToUpdate.setAge(updatedEmployee.getAge());
             employeeToUpdate.setSalary(updatedEmployee.getSalary());

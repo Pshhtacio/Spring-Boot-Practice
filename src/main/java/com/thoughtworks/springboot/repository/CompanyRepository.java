@@ -71,6 +71,7 @@ public class CompanyRepository {
         return newCompany;
     }
 
+    //TODO Handle Business Logic and Validation in service, reference day8-Spring Boot.pdf page 8
     private void validateCompanyName(String name) {
         if (name == null || name.isEmpty()) {
             throw new CompanyValidationException("Company name cannot be null or empty.");
@@ -78,6 +79,7 @@ public class CompanyRepository {
     }
 
     private Long generateNextId() {
+        //TODO local variables should be camel case, global contstant variables are upper case
         long STARTING_ID_MINUS_ONE = 0;
         return companies.stream()
                 .mapToLong(Company::getId)
@@ -91,6 +93,7 @@ public class CompanyRepository {
                 .findFirst()
                 .orElse(null);
 
+        //TODO Handle Business Logic and Validation in service, reference day8-Spring Boot.pdf page 8
         if (companyToUpdate != null) {
             companyToUpdate.setName(updatedCompany.getName());
             return companyToUpdate;
@@ -105,6 +108,7 @@ public class CompanyRepository {
                 .findFirst()
                 .orElse(null);
 
+        //TODO Handle Business Logic and Validation in service, reference day8-Spring Boot.pdf page 8
         if (companyToDelete != null) {
             companies.remove(companyToDelete);
         } else {

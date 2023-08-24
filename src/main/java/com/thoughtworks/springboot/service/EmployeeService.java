@@ -53,6 +53,7 @@ public class EmployeeService {
 
     public List<Employee> findEmployeesByPage(Long pageNumber, Long pageSize) {
         if (pageNumber <= 0 || pageSize <= 0) {
+            //TODO out of scope need to clarify
             throw new IllegalArgumentException("Page number and page size must be greater than zero.");
         }
         return employeeRepository.listByPage(pageNumber, pageSize);

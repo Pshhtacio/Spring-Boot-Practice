@@ -33,6 +33,7 @@ public class Employee {
         this.isActive = true;
     }
 
+    //TODO Remove unused getters
     public Long getCompanyId() {
         return companyId;
     }
@@ -64,7 +65,7 @@ public class Employee {
     public String getName() {
         return name;
     }
-
+    //TODO Remove unused setter
     public void setName(String name) {
         this.name = name;
     }
@@ -80,7 +81,7 @@ public class Employee {
     public String getGender() {
         return gender;
     }
-
+    //TODO Remove unused setter
     public void setGender(String gender) {
         this.gender = gender;
     }

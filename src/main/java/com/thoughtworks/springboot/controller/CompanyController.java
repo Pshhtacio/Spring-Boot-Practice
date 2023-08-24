@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//TODO Use CompanyService instead of CompanyRepository
 @RequestMapping(path = "companies")
 @RestController
 public class CompanyController {
@@ -53,8 +54,10 @@ public class CompanyController {
     @PostMapping()
     public ResponseEntity<Object> addCompany(@RequestBody Company company) {
         try {
+            //TODO Handle the failed adding in the CompanyService
             Company addedCompany = companyRepository.addCompany(company);
             return ResponseEntity.status(HttpStatus.CREATED).body(addedCompany);
+            //TODO Wrong exception being caught
         } catch (EmployeeValidationException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
@@ -63,6 +66,7 @@ public class CompanyController {
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateCompanyById(@PathVariable Long id, @RequestBody Company updatedCompany) {
         try {
+            //TODO Handle validation handling in Company Service
             Company updated = companyRepository.updateCompanyById(id, updatedCompany);
             if (updated != null) {
                 return ResponseEntity.ok(updated);
@@ -79,6 +83,7 @@ public class CompanyController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCompanyById(@PathVariable Long id) {
         try {
+            //TODO Handle validation handling in Company Service
             companyRepository.deleteCompanyById(id);
             return ResponseEntity.noContent().build();
         } catch (CompanyNotFoundException ex) {
